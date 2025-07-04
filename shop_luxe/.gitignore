@@ -1,0 +1,28 @@
+# .env file for environment variables
+.env
+
+# Python virtual environment
+venv/
+env/
+.venv/
+
+# Django project's local database file
+db.sqlite3
+*.sqlite3
+
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Static and Media files
+staticfiles/
+media/
+
+# IDE and editor directories
+.vscode/
+.idea/
+
+# Log files
+*.log
