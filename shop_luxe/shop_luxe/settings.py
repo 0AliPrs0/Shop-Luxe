@@ -41,6 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'API',
+    'accounts',
+    'products',
+    'cart',
+    'orders',
+    'product_reviews',
 ]
 
 MIDDLEWARE = [
@@ -99,8 +105,18 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '5432',
-    }
+    },
+    # 'mongo': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'shop_luxe_mongo_db', # یک نام برای دیتابیس مونگوی خود انتخاب کنید
+    #     'ENFORCE_SCHEMA': False,
+    #     'CLIENT': {
+    #         'host': 'mongodb://localhost:27017/',
+    #     }
+    # }
 }
+
+# DATABASE_ROUTERS = ['shop_luxe.routers.MongoRouter']
 
 
 # Password validation
