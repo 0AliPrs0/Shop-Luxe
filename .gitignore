@@ -1,0 +1,27 @@
+# IDE and editor directories (can be anywhere)
+.vscode/
+.idea/
+
+# .env file inside the Django project directory
+shop_luxe/.env
+
+# Python virtual environment inside the Django project directory
+shop_luxe/venv/
+shop_luxe/env/
+shop_luxe/.venv/
+
+# Django project's local database file
+shop_luxe/db.sqlite3
+shop_luxe/*.sqlite3
+
+# Python bytecode and cache
+shop_luxe/__pycache__/
+shop_luxe/*/__pycache__/
+*.pyc
+
+# Static and Media files
+shop_luxe/staticfiles/
+shop_luxe/media/
+
+# Log files
+*.log

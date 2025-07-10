@@ -37,10 +37,10 @@ class OrderItem(models.Model):
 
 class Payment(models.Model):
     STATUS_CHOICES = [
-        ('PENDING', 'در انتظار پرداخت'),
-        ('COMPLETED', 'موفق'),
-        ('FAILED', 'ناموفق'),
-        ('REFUNDED', 'مسترد شده'),
+        ('PENDING', 'pending'),
+        ('COMPLETED', 'completed'),
+        ('FAILED', 'failed'),
+        ('REFUNDED', 'refunded'),
     ]
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='payments')
