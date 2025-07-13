@@ -14,11 +14,11 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductDetailSerializer
 
 class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(parent__isnull=True)
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
 
-class CategoryDetailView(generics.ListAPIView):
+class CategoryDetailView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer

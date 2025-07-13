@@ -19,6 +19,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from accounts import views as accounts_views
 from products import views as products_views
+from product_reviews import views as product_rewiews_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +36,6 @@ urlpatterns = [
     path('api/products/<int:pk>/', products_views.ProductDetailView.as_view(), name='product-detail'),
     path('api/categories/', products_views.CategoryListView.as_view(), name='category-list'),
     path('api/categories/<int:pk>/', products_views.CategoryDetailView.as_view(), name='category-detail'),
+    path('api/products/<int:product_id>/reviews/', product_rewiews_view.ReviewListView.as_view(), name='product-reviews'),
+    path('api/products/<int:product_id>/reviews/add/', product_rewiews_view.ReviewCreateView.as_view(), name='add-review'),
 ]
