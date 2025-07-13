@@ -26,5 +26,9 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/auth/register/', accounts_views.UserRegistrationView.as_view(), name='user-register'),
-
+    path('api/auth/login/', accounts_views.UserLoginView.as_view(), name='user-login'),
+    path('api/auth/logout/', accounts_views.UserLogoutView.as_view(), name='user-logout'),
+    path('api/auth/password-reset/', accounts_views.PasswordResetRequestView.as_view(), name='password-reset-request'),
+    path('api/auth/password-reset/confirm/', accounts_views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+    path('api/profile/me/', accounts_views.UserProfileView.as_view(), name='user-profile'),
 ]
