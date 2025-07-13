@@ -33,4 +33,6 @@ urlpatterns = [
     path('api/profile/me/', accounts_views.UserProfileView.as_view(), name='user-profile'),
     path('api/products/', products_views.ProductListView.as_view(), name='product-list'),
     path('api/products/<int:pk>/', products_views.ProductDetailView.as_view(), name='product-detail'),
+    path('api/categories/', products_views.CategoryListView.as_view(), name='category-list'),
+    path('api/categories/<int:pk>/', products_views.CategoryDetailView.as_view(), name='category-detail'),
 ]
