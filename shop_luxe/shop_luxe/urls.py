@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from accounts import views as accounts_views
-
+from products import views as products_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +31,6 @@ urlpatterns = [
     path('api/auth/password-reset/', accounts_views.PasswordResetRequestView.as_view(), name='password-reset-request'),
     path('api/auth/password-reset/confirm/', accounts_views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
     path('api/profile/me/', accounts_views.UserProfileView.as_view(), name='user-profile'),
+    path('api/products/', products_views.ProductListView.as_view(), name='product-list'),
+    path('api/products/<int:pk>/', products_views.ProductDetailView.as_view(), name='product-detail'),
 ]
