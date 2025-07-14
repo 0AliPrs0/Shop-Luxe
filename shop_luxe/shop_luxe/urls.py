@@ -20,6 +20,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from accounts import views as accounts_views
 from products import views as products_views
 from product_reviews import views as product_rewiews_view
+from orders import views as orders_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,4 +39,6 @@ urlpatterns = [
     path('api/categories/<int:pk>/', products_views.CategoryDetailView.as_view(), name='category-detail'),
     path('api/products/<int:product_id>/reviews/', product_rewiews_view.ReviewListView.as_view(), name='product-reviews'),
     path('api/products/<int:product_id>/reviews/add/', product_rewiews_view.ReviewCreateView.as_view(), name='add-review'),
+    path('api/orders/', orders_views.OrderListView.as_view(), name='order-list'),
+    path('api/orders/<int:pk>/', orders_views.OrderDetailView.as_view(), name='order-detail'),
 ]
