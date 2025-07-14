@@ -10,7 +10,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
-    extra = 1 
+    extra = 1
 
 
 @admin.register(Product)
@@ -20,3 +20,9 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductVariantInline]
+
+
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'product', 'price', 'stock')
+    search_fields = ('product__name',)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import JSONField
 from accounts.models import User
+from products.models import ProductVariant
 
 class Order(models.Model):
     STATUS_CHOICES = [('PENDING', 'Pending'), ('PROCESSING', 'Processing'), ('SHIPPED', 'Shipped'), ('DELIVERED', 'Delivered'), ('CANCELLED', 'Cancelled')]
@@ -24,16 +25,22 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product_id = models.CharField(max_length=24)
-    product_name = models.CharField(max_length=255) 
+    variant = models.ForeignKey(ProductVariant, on_delete=models.SET_NULL, null=True, related_name='order_items')
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2) 
-    variant = JSONField(blank=True, null=True) 
+
     def __str__(self):
-        return f"{self.quantity} x {self.product_name} in Order {self.order.id}"
+        if self.variant and self.variant.product:
+            return f"{self.quantity} x {self.variant.product.name} in Order {self.order.id}"
+        return f"{self.quantity} x [Deleted Product] in Order {self.order.id}"   
+
+    def save(self, *args, **kwargs):
+        if self.price is None and self.variant:
+            self.price = self.variant.price
+        super().save(*args, **kwargs) 
     
     class Meta:
-         unique_together = ('order', 'product_id', 'variant') 
+         unique_together = ('order', 'variant') 
 
 class Payment(models.Model):
     STATUS_CHOICES = [
