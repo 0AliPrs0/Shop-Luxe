@@ -21,6 +21,7 @@ from accounts import views as accounts_views
 from products import views as products_views
 from product_reviews import views as product_rewiews_view
 from orders import views as orders_views
+from cart import views as cart_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,4 +45,9 @@ urlpatterns = [
     path('api/payments/initiate/', orders_views.InitiatePaymentView.as_view(), name='initiate-payment'),
     path('api/payments/callback/', orders_views.PaymentCallbackView.as_view(), name='payment-callback'),
     path('api/search/', products_views.GlobalSearchView.as_view(), name='global-search'),
+    path('api/cart/', cart_views.CartDetailView.as_view(), name='user-cart'),
+    path('api/cart/add/', cart_views.AddToCartView.as_view(), name='add-to-cart'),
+    path('api/cart/update/<int:pk>/', cart_views.UpdateCartItemView.as_view(), name='update-cart-item'),
+    path('api/cart/remove/<int:pk>/', cart_views.RemoveFromCartView.as_view(), name='remove-from-cart'),
+
 ]
