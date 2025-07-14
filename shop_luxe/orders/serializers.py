@@ -42,3 +42,11 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             'items',
             'payments'
         ]
+
+class InitiatePaymentSerializer(serializers.Serializer):
+    order_id = serializers.IntegerField()
+
+    def validate_order_id(self, value):
+        if not Order.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Order with this ID does not exist.")
+        return value

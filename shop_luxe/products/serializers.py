@@ -30,3 +30,17 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def get_children(self, obj):
         return CategorySerializer(obj.children.all(), many=True).data
+    
+
+class ProductSearchSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    variants = ProductVariantSerializer(many=True, read_only=True)
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'slug', 'description', 'category', 'variants')
+
+
+class CategorySearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'slug')

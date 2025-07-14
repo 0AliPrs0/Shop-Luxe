@@ -41,4 +41,7 @@ urlpatterns = [
     path('api/products/<int:product_id>/reviews/add/', product_rewiews_view.ReviewCreateView.as_view(), name='add-review'),
     path('api/orders/', orders_views.OrderListView.as_view(), name='order-list'),
     path('api/orders/<int:pk>/', orders_views.OrderDetailView.as_view(), name='order-detail'),
+    path('api/payments/initiate/', orders_views.InitiatePaymentView.as_view(), name='initiate-payment'),
+    path('api/payments/callback/', orders_views.PaymentCallbackView.as_view(), name='payment-callback'),
+    path('api/search/', products_views.GlobalSearchView.as_view(), name='global-search'),
 ]
