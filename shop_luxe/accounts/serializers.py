@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import Group
 
 User = get_user_model()
 
@@ -18,6 +18,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        try:
+            customer_group = Group.objects.get(name='Customers')
+            user.groups.add(customer_group)
+        except Group.DoesNotExist:
+            pass
         return user
 
 

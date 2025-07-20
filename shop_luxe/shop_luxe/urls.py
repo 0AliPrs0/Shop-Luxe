@@ -49,5 +49,4 @@ urlpatterns = [
     path('api/cart/add/', cart_views.AddToCartView.as_view(), name='add-to-cart'),
     path('api/cart/update/<int:pk>/', cart_views.UpdateCartItemView.as_view(), name='update-cart-item'),
     path('api/cart/remove/<int:pk>/', cart_views.RemoveFromCartView.as_view(), name='remove-from-cart'),
-
 ]
