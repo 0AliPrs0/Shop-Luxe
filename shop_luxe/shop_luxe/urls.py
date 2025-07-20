@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/categories/<int:pk>/', products_views.CategoryDetailView.as_view(), name='category-detail'),
     path('api/products/<int:product_id>/reviews/', product_rewiews_view.ReviewListView.as_view(), name='product-reviews'),
     path('api/products/<int:product_id>/reviews/add/', product_rewiews_view.ReviewCreateView.as_view(), name='add-review'),
+    path('api/products/create/', products_views.ProductCreateView.as_view(), name='product-create'),
     path('api/orders/', orders_views.OrderListView.as_view(), name='order-list'),
     path('api/orders/<int:pk>/', orders_views.OrderDetailView.as_view(), name='order-detail'),
     path('api/payments/initiate/', orders_views.InitiatePaymentView.as_view(), name='initiate-payment'),

@@ -1,10 +1,30 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductVariant
+from django.db import transaction
 
 class ProductVariantSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVariant
         fields = ('id', 'price', 'stock', 'attributes')
+        read_only_fields = ('id',)
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    variants = ProductVariantSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = ('category', 'name', 'slug', 'description', 'specifications', 'images', 'variants')
+
+    def create(self, validated_data):
+        with transaction.atomic():
+            variants_data = validated_data.pop('variants')
+            
+            product = Product.objects.create(**validated_data)
+            
+            for variant_data in variants_data:
+                ProductVariant.objects.create(product=product, **variant_data)
+                
+        return product
 
 class ProductListSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()

@@ -1,9 +1,10 @@
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import views, status
 from rest_framework.response import Response
 from django.db.models import Q
-from .serializers import ProductListSerializer, ProductDetailSerializer, CategorySerializer, ProductSearchSerializer, CategorySearchSerializer
+from accounts.permissions import IsSellerUser
+from .serializers import ProductListSerializer, ProductDetailSerializer, CategorySerializer, ProductSearchSerializer, CategorySearchSerializer, ProductCreateSerializer
 from .models import Product, Category
 
 class ProductListView(generics.ListAPIView):
@@ -55,3 +56,8 @@ class GlobalSearchView(views.APIView):
         }
 
         return Response(data, status=status.HTTP_200_OK)
+    
+class ProductCreateView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductCreateSerializer
+    permission_classes = [IsAuthenticated, IsSellerUser]
