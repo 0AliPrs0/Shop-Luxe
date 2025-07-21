@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'accounts',
-    'products',
+    'products.apps.ProductsConfig',
     'cart',
     'orders',
     'product_reviews',
@@ -123,17 +123,16 @@ DATABASES = {
 
 # DATABASE_ROUTERS = ['shop_luxe.routers.MongoRouter']
 
-# settings.py
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://127.0.0.1:6379",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            #"SERIALIZER": "django_redis.serializers.json.JSONSerializer",
         }
     }
 }

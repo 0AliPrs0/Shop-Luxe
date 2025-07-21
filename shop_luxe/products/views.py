@@ -6,26 +6,73 @@ from django.db.models import Q
 from accounts.permissions import IsSellerUser
 from .serializers import ProductListSerializer, ProductDetailSerializer, CategorySerializer, ProductSearchSerializer, CategorySearchSerializer, ProductCreateSerializer
 from .models import Product, Category
+from django.core.cache import cache
+
 
 class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(is_available=True)
     permission_classes = (AllowAny,)
     serializer_class = ProductListSerializer
 
+    def list(self, request, *args, **kwargs):
+        cache_key = 'product_list'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=3600)
+        return response
+
+
 class ProductDetailView(generics.RetrieveAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(is_available=True)
     permission_classes = (AllowAny,)
     serializer_class = ProductDetailSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        cache_key = f'product_detail_{pk}'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().retrieve(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=3600) 
+        return response
+
 
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.filter(parent__isnull=True)
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
 
+    def list(self, request, *args, **kwargs):
+        cache_key = 'category_list'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=86400)
+        return response
+
+
 class CategoryDetailView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        cache_key = f'category_detail_{pk}'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().retrieve(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=86400)
+        return response
 
 
 class GlobalSearchView(views.APIView):

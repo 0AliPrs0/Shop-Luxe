@@ -9,6 +9,7 @@ from .serializers import (
 )
 from .models import Order, Payment
 from django.urls import reverse
+from django.core.cache import cache
 
 
 class OrderListView(generics.ListAPIView):
@@ -18,12 +19,34 @@ class OrderListView(generics.ListAPIView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user).order_by('-ordered_at')
 
+    def list(self, request, *args, **kwargs):
+        cache_key = f'orders_user_{request.user.id}'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=600) 
+        return response
+
+
 class OrderDetailView(generics.RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        cache_key = f'order_detail_user_{request.user.id}_order_{pk}'
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+
+        response = super().retrieve(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=3600) 
+        return response
     
 
 class InitiatePaymentView(generics.GenericAPIView):
