@@ -113,7 +113,7 @@ DATABASES = {
     },
     # 'mongo': {
     #     'ENGINE': 'djongo',
-    #     'NAME': 'shop_luxe_mongo_db', # یک نام برای دیتابیس مونگوی خود انتخاب کنید
+    #     'NAME': 'shop_luxe_mongo_db', 
     #     'ENFORCE_SCHEMA': False,
     #     'CLIENT': {
     #         'host': 'mongodb://localhost:27017/',
@@ -123,9 +123,25 @@ DATABASES = {
 
 # DATABASE_ROUTERS = ['shop_luxe.routers.MongoRouter']
 
+# settings.py
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
