@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, ProductVariant
+from .models import Category, Product, ProductVariant, ProductImage
 from django.db import transaction
 
 class ProductVariantSerializer(serializers.ModelSerializer):
@@ -64,3 +64,9 @@ class CategorySearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name', 'slug')
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ('id', 'image', 'product')
+        read_only_fields = ('product',)

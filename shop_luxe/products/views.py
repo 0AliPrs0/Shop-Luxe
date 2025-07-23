@@ -4,9 +4,11 @@ from rest_framework import views, status
 from rest_framework.response import Response
 from django.db.models import Q
 from accounts.permissions import IsSellerUser
-from .serializers import ProductListSerializer, ProductDetailSerializer, CategorySerializer, ProductSearchSerializer, CategorySearchSerializer, ProductCreateSerializer
-from .models import Product, Category
+from .serializers import ProductListSerializer, ProductDetailSerializer, CategorySerializer, ProductSearchSerializer, CategorySearchSerializer, ProductCreateSerializer, ProductImageSerializer
+from .models import Product, Category, ProductImage
 from django.core.cache import cache
+from .permissions import IsProductOwner
+from django.shortcuts import get_object_or_404
 
 
 class ProductListView(generics.ListAPIView):
@@ -108,3 +110,16 @@ class ProductCreateView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
     permission_classes = [IsAuthenticated, IsSellerUser]
+    def perform_create(self, serializer):
+        serializer.save(seller=self.request.user)
+
+
+class ProductImageUploadView(generics.CreateAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+    permission_classes = [IsAuthenticated, IsProductOwner]
+
+    def perform_create(self, serializer):
+        product = get_object_or_404(Product, pk=self.kwargs['product_pk'])
+        self.check_object_permissions(self.request, product)
+        serializer.save(product=product)
