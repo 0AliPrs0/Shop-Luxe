@@ -18,13 +18,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        user.is_active = False
+        user.save()
         try:
             customer_group = Group.objects.get(name='Customers')
             user.groups.add(customer_group)
         except Group.DoesNotExist:
             pass
         return user
-
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

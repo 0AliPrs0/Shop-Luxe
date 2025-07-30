@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/auth/password-reset/', accounts_views.PasswordResetRequestView.as_view(), name='password-reset-request'),
     path('api/auth/password-reset/confirm/', accounts_views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
     path('api/profile/me/', accounts_views.UserProfileView.as_view(), name='user-profile'),
+    path('api/accounts/verify-email/<str:uidb64>/<str:token>/', accounts_views.EmailVerificationView.as_view(), name='email-verify'),
 
     path('api/categories/', products_views.CategoryListView.as_view(), name='category-list'),
     path('api/categories/<int:pk>/', products_views.CategoryDetailView.as_view(), name='category-detail'),
