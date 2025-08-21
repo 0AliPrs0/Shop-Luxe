@@ -54,7 +54,7 @@ The entire application is orchestrated by Docker Compose, consisting of four mai
 ### Installation
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/0AliPrs0/Shop-Luxe.git
     cd shop_luxe
     ```
 
